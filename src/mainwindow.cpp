@@ -45,29 +45,31 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::handleMonthComboBoxChange(int index) {
-    spdlog::info("Month changed: {}", index);
     calendar_.setMonth(index);
     updateCalendarWidget();
 }
 
 void MainWindow::handleYearSpinBoxChange(int value) {
-    spdlog::info("Year changed: {}", value);
     calendar_.setYear(value);
     updateCalendarWidget();
 }
 
 void MainWindow::handleNextMonthButton() {
-    spdlog::info("Next month");
     auto newDate = calendar_.setNextMonth();
     monthComboBox_->setCurrentIndex(uint(newDate.month()) - 1);
     yearSpinBox_->setValue(int(newDate.year()));
 }
 
 void MainWindow::handlePrevMonthButton() {
-    spdlog::info("Prev month");
     auto newDate = calendar_.setPrevMonth();
     monthComboBox_->setCurrentIndex(uint(newDate.month()) - 1);
     yearSpinBox_->setValue(int(newDate.year()));
+}
+
+void MainWindow::handleSetFirstPillDay(date::year_month_day date) {
+
+    calendar_.setPillStartDate(date);
+    updateCalendarWidget();
 }
 
 void MainWindow::initializeCalendarWidget() {
@@ -78,11 +80,8 @@ void MainWindow::initializeCalendarWidget() {
         for (int col = 0; col < columns; ++col) {
             QPushButton* button = new QPushButton("0");
             button->setFixedSize(kDayWidth, kDayHeight);
+            button->setFlat(true);
             QObject::connect(button, &QPushButton::clicked, [this, button]() {
-                spdlog::info("Day clicked: {}/{}/{}",
-                             button->property("day").toUInt(),
-                             button->property("month").toUInt(),
-                             button->property("year").toInt());
                 auto reply = QMessageBox(
                     QMessageBox::Question, "Ustawianie daty",
                     fmt::format(
@@ -96,12 +95,12 @@ void MainWindow::initializeCalendarWidget() {
                 reply.setButtonText(QMessageBox::Yes, tr("Tak"));
                 reply.setButtonText(QMessageBox::No, tr("Nie"));
                 if (reply.exec() == QMessageBox::Yes) {
-                    spdlog::info("Set fist pill day");
+                    this->handleSetFirstPillDay(date::year_month_day{
+                        date::year(button->property("year").toInt()) /
+                        button->property("month").toUInt() /
+                        button->property("day").toUInt()});
                 }
             });
-            button->setProperty("day", 30);
-            button->setProperty("month", 9);
-            button->setProperty("year", 2001);
             grid->addWidget(button, row + 1, col);
         }
     }
@@ -121,6 +120,16 @@ void MainWindow::updateCalendarWidget() {
             button->setProperty("day", uint(day->date.day()));
             button->setProperty("month", uint(day->date.month()));
             button->setProperty("year", int(day->date.year()));
+            if (day->type == period_calendar::DayType::BLANK) {
+                button->setStyleSheet(
+                    QString::fromStdString(blankDayStyleSheet));
+            } else if (day->period == period_calendar::PeriodType::PERIOD) {
+                button->setStyleSheet(
+                    QString::fromStdString(periodDayStyleSheet));
+            } else {
+                button->setStyleSheet(
+                    QString::fromStdString(normalDayStyleSheet));
+            }
             ++day;
         }
     }

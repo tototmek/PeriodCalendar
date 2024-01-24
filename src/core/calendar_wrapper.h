@@ -17,6 +17,7 @@ class CalendarWrapper {
     void setYear(int year);
     date::year_month setNextMonth();
     date::year_month setPrevMonth();
+    void setPillStartDate(date::year_month_day date);
 
   private:
     date::year_month page_;

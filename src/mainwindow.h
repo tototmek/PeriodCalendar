@@ -6,8 +6,12 @@
 #include <QComboBox>
 #include <QMainWindow>
 
-constexpr int kDayWidth = 35;
-constexpr int kDayHeight = 50;
+constexpr int kDayWidth = 30;
+constexpr int kDayHeight = 30;
+
+const std::string normalDayStyleSheet = "color: #cccccc;";
+const std::string blankDayStyleSheet = "color: #484848;";
+const std::string periodDayStyleSheet = "color: #88dd88;";
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -20,6 +24,7 @@ class MainWindow : public QMainWindow {
     void handleYearSpinBoxChange(int value);
     void handleNextMonthButton();
     void handlePrevMonthButton();
+    void handleSetFirstPillDay(date::year_month_day date);
 
   private:
     void initializeCalendarWidget();

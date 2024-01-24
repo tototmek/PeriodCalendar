@@ -47,4 +47,8 @@ date::year_month CalendarWrapper::setPrevMonth() {
     return page_;
 }
 
+void CalendarWrapper::setPillStartDate(date::year_month_day date) {
+    calendar_.setPillStartDate(date);
+}
+
 } // namespace period_calendar
