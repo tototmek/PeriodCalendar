@@ -6,6 +6,9 @@
 #include <QComboBox>
 #include <QMainWindow>
 
+constexpr int kDayWidth = 35;
+constexpr int kDayHeight = 50;
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -19,6 +22,8 @@ class MainWindow : public QMainWindow {
     void handlePrevMonthButton();
 
   private:
+    void initializeCalendarWidget();
+    void updateCalendarWidget();
     period_calendar::CalendarWrapper calendar_;
     Ui::MainWindow ui;
     QComboBox* monthComboBox_;

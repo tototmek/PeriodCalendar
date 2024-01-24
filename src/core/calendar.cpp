@@ -62,7 +62,7 @@ void Calendar::setPillStartDate(date::year_month_day date) {
 
 Day Calendar::analyzeDay(date::year_month_day date) const {
     Day result;
-    result.index = uint(date.day());
+    result.date = date;
     result.type = DayType::NORMAL;
     result.period = PeriodType::NONE;
     if (date.month() != page_.month() || date.year() != page_.year()) {

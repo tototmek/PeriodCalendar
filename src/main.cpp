@@ -6,11 +6,14 @@
 #include <spdlog/spdlog.h>
 #include <string>
 
-using namespace period_calendar;
+const std::string kStyleSheet = {
+#include "stylesheet.dat"
+};
 
 int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
+    w.setStyleSheet(QString::fromStdString(kStyleSheet));
     w.show();
     return a.exec();
 }

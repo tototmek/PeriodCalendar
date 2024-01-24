@@ -1,6 +1,7 @@
 #ifndef CORE_TYPES_H
 #define CORE_TYPES_H
 
+#include "date.h"
 #include <cstdint>
 
 namespace period_calendar {
@@ -16,7 +17,7 @@ enum class PeriodType {
 };
 
 struct Day {
-    uint index = 0;
+    date::year_month_day date;
     DayType type = DayType::BLANK;
     PeriodType period = PeriodType::NONE;
 };
