@@ -60,6 +60,10 @@ void Calendar::setPillStartDate(date::year_month_day date) {
     pillStartDate_ = date;
 }
 
+date::year_month_day Calendar::getPillStartDate() const {
+    return pillStartDate_;
+}
+
 Day Calendar::analyzeDay(date::year_month_day date) const {
     Day result;
     result.date = date;

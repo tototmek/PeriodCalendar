@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>349</width>
+    <width>337</width>
     <height>338</height>
    </rect>
   </property>
@@ -100,9 +100,7 @@ alternate-background-color: rgb(136, 138, 133);</string>
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">QComboBox {
-	border: 0px solid black;
-};
+          <string notr="true">
 </string>
          </property>
          <property name="editable">
@@ -121,6 +119,9 @@ alternate-background-color: rgb(136, 138, 133);</string>
        </item>
        <item>
         <widget class="QSpinBox" name="yearSpinBox">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="frame">
           <bool>false</bool>
          </property>
@@ -131,7 +132,7 @@ alternate-background-color: rgb(136, 138, 133);</string>
           <number>2137</number>
          </property>
          <property name="value">
-          <number>2024</number>
+          <number>2137</number>
          </property>
         </widget>
        </item>

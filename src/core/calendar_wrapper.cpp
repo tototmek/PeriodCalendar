@@ -51,4 +51,8 @@ void CalendarWrapper::setPillStartDate(date::year_month_day date) {
     calendar_.setPillStartDate(date);
 }
 
+date::year_month_day CalendarWrapper::getPillStartDate() const {
+    return calendar_.getPillStartDate();
+}
+
 } // namespace period_calendar

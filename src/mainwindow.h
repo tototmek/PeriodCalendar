@@ -12,6 +12,9 @@ constexpr int kDayHeight = 30;
 const std::string normalDayStyleSheet = "color: #cccccc;";
 const std::string blankDayStyleSheet = "color: #484848;";
 const std::string periodDayStyleSheet = "color: #88dd88;";
+const std::string periodBlankDayStyleSheet = "color: #294029;";
+
+const std::string kSavePath = "save.dat";
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -25,6 +28,7 @@ class MainWindow : public QMainWindow {
     void handleNextMonthButton();
     void handlePrevMonthButton();
     void handleSetFirstPillDay(date::year_month_day date);
+    void handleApplicationQuit();
 
   private:
     void initializeCalendarWidget();

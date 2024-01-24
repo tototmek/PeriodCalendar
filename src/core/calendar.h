@@ -16,6 +16,7 @@ class Calendar {
     const std::vector<Day>& view() const;
     void setCalendarPage(date::year_month date);
     void setPillStartDate(date::year_month_day date);
+    date::year_month_day getPillStartDate() const;
 
   private:
     Day analyzeDay(date::year_month_day date) const;

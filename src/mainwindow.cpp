@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 
+#include "core/io.h"
 #include <QLabel>
 #include <QMessageBox>
 #include <QString>
+#include <fmt/core.h>
 #include <map>
-#include <spdlog/spdlog.h>
 #include <string>
 #include <vector>
 
@@ -29,19 +30,25 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     nextMonthButton_ = ui.nextMonthButton;
     prevMonthButton_ = ui.prevMonthButton;
     calendarWidget_ = ui.calendarWidget;
+    try {
+        calendar_.setPillStartDate(loadDate(kSavePath));
+    } catch (std::runtime_error& e) {
+    }
     initializeCalendarWidget();
     updateCalendarWidget();
     for (const auto& month : months) {
         monthComboBox_->addItem(QString::fromStdString(month));
     }
-    connect(monthComboBox_, SIGNAL(currentIndexChanged(int)), this,
-            SLOT(handleMonthComboBoxChange(int)));
-    connect(yearSpinBox_, SIGNAL(valueChanged(int)), this,
-            SLOT(handleYearSpinBoxChange(int)));
-    connect(nextMonthButton_, SIGNAL(clicked()), this,
-            SLOT(handleNextMonthButton()));
-    connect(prevMonthButton_, SIGNAL(clicked()), this,
-            SLOT(handlePrevMonthButton()));
+    handlePrevMonthButton();
+    handleNextMonthButton();
+    connect(monthComboBox_, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::handleMonthComboBoxChange);
+    connect(yearSpinBox_, QOverload<int>::of(&QSpinBox::valueChanged), this,
+            &MainWindow::handleYearSpinBoxChange);
+    connect(nextMonthButton_, &QPushButton::clicked, this,
+            &MainWindow::handleNextMonthButton);
+    connect(prevMonthButton_, &QPushButton::clicked, this,
+            &MainWindow::handlePrevMonthButton);
 }
 
 void MainWindow::handleMonthComboBoxChange(int index) {
@@ -70,6 +77,10 @@ void MainWindow::handleSetFirstPillDay(date::year_month_day date) {
 
     calendar_.setPillStartDate(date);
     updateCalendarWidget();
+}
+
+void MainWindow::handleApplicationQuit() {
+    saveDate(calendar_.getPillStartDate(), kSavePath);
 }
 
 void MainWindow::initializeCalendarWidget() {
@@ -121,8 +132,13 @@ void MainWindow::updateCalendarWidget() {
             button->setProperty("month", uint(day->date.month()));
             button->setProperty("year", int(day->date.year()));
             if (day->type == period_calendar::DayType::BLANK) {
-                button->setStyleSheet(
-                    QString::fromStdString(blankDayStyleSheet));
+                if (day->period == period_calendar::PeriodType::PERIOD) {
+                    button->setStyleSheet(
+                        QString::fromStdString(periodBlankDayStyleSheet));
+                } else {
+                    button->setStyleSheet(
+                        QString::fromStdString(blankDayStyleSheet));
+                }
             } else if (day->period == period_calendar::PeriodType::PERIOD) {
                 button->setStyleSheet(
                     QString::fromStdString(periodDayStyleSheet));
