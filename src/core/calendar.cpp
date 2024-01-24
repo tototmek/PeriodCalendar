@@ -1,16 +1,12 @@
 #include "calendar.h"
 
 #include "date.h"
+#include "types.h"
 #include <chrono>
 
 namespace period_calendar {
 
 namespace {
-
-date::year_month_day getToday() {
-    return date::year_month_day(
-        date::floor<date::days>(std::chrono::system_clock::now()));
-}
 
 date::year_month_day getFirstDayOfPage(date::year_month page) {
     auto first_day = date::year_month_day{page / 1};
@@ -36,10 +32,9 @@ inline int positive_modulo(int i, int n) { return (i % n + n) % n; }
 
 } // namespace
 
-Calendar::Calendar() {
-    auto today = getToday();
-    pillStartDate_ = today;
-    page_ = date::year_month{today.year(), today.month()};
+Calendar::Calendar(date::year_month page, date::year_month_day pillStartDate) {
+    page_ = page;
+    pillStartDate_ = pillStartDate;
     days_.resize(kDaysPerMonth);
 }
 

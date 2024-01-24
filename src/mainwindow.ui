@@ -25,7 +25,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <spacer name="horizontalSpacer">
+        <spacer name="leftSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -64,7 +64,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="rightSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -80,12 +80,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="calendarWidget" native="true">
+     <widget class="QWidget" name="calendarContainer" native="true">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QVBoxLayout" name="prevButtonContainer">
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="prevMonthButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -113,7 +113,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QWidget" name="calendar" native="true">
+        <widget class="QWidget" name="calendarWidget" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -124,9 +124,9 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QVBoxLayout" name="nextButtonContainer">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="nextMonthButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>

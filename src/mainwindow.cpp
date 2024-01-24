@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     this->setWindowTitle("Kalendarz Frosch");
     monthComboBox_ = ui.monthComboBox;
     yearSpinBox_ = ui.yearSpinBox;
+    nextMonthButton_ = ui.nextMonthButton;
+    prevMonthButton_ = ui.prevMonthButton;
+    calendarWidget_ = ui.calendarWidget;
 
     for (const auto& month : months) {
         monthComboBox_->addItem(QString::fromStdString(month));
@@ -27,15 +30,34 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     connect(monthComboBox_, SIGNAL(currentIndexChanged(int)), this,
             SLOT(handleMonthComboBoxChange(int)));
-
     connect(yearSpinBox_, SIGNAL(valueChanged(int)), this,
             SLOT(handleYearSpinBoxChange(int)));
+    connect(nextMonthButton_, SIGNAL(clicked()), this,
+            SLOT(handleNextMonthButton()));
+    connect(prevMonthButton_, SIGNAL(clicked()), this,
+            SLOT(handlePrevMonthButton()));
 }
 
 void MainWindow::handleMonthComboBoxChange(int index) {
     spdlog::info("Month changed: {}", index);
+    calendar_.setMonth(index);
 }
 
 void MainWindow::handleYearSpinBoxChange(int value) {
     spdlog::info("Year changed: {}", value);
+    calendar_.setYear(value);
+}
+
+void MainWindow::handleNextMonthButton() {
+    spdlog::info("Next month");
+    auto newDate = calendar_.setNextMonth();
+    monthComboBox_->setCurrentIndex(uint(newDate.month()) - 1);
+    yearSpinBox_->setValue(int(newDate.year()));
+}
+
+void MainWindow::handlePrevMonthButton() {
+    spdlog::info("Prev month");
+    auto newDate = calendar_.setPrevMonth();
+    monthComboBox_->setCurrentIndex(uint(newDate.month()) - 1);
+    yearSpinBox_->setValue(int(newDate.year()));
 }
