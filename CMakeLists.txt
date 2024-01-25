@@ -13,7 +13,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORRC ON)
 
+if (NOT WIN32)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic")
+endif()
 
 if (WIN32)
     set(CMAKE_WIN32_EXECUTABLE ON)
