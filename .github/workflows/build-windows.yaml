@@ -17,7 +17,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Set up CMake
-      uses: eskatos/setup-cmake@v2
+      uses: actions/setup-cmake@v2
       with:
         cmake-version: '3.16.0'
 
