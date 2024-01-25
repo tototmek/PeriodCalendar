@@ -3,6 +3,7 @@
 
 #include "date.h"
 #include "types.h"
+#include <vector>
 
 typedef unsigned int uint;
 
