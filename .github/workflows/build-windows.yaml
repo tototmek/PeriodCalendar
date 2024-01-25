@@ -1,0 +1,45 @@
+name: Build: Windows
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up MSVC
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Set up CMake
+      uses: eskatos/setup-cmake@v2
+      with:
+        cmake-version: '3.16.0'
+
+    - name: Install Qt5
+      run: |
+        choco install qt5 -y
+        echo "C:\\Program Files\\Qt\\5.15.2\\msvc2019_64\\bin" >> $env:PATH
+
+    - name: Install Ninja
+      run: choco install ninja -y
+
+    - name: Fetch fmt
+      run: cmake -E chdir fmt git submodule update --init --recursive
+
+    - name: Configure and Build
+      run: |
+        cmake -B build -S .
+        cmake --build build --config Release
+
+    - name: Archive Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: PeriodCalendar-Windows
+        path: build/Release/PeriodCalendar.exe
+
