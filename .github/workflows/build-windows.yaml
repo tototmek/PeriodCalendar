@@ -11,13 +11,15 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up MSVC
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Set up CMake
-      run: sudo apt-get install -y cmake
+      uses: Kitware/CMake-action@v1
+      with:
+        cmakeListsOrSettingsJson: '${{ workspace }}/CMakeLists.txt'  # Specify the path to your CMakeLists.txt file or CMake settings JSON file
 
     - name: Install Qt5
       run: |
@@ -36,7 +38,7 @@ jobs:
         cmake --build build --config Release
 
     - name: Archive Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: PeriodCalendar-Windows
         path: build/Release/PeriodCalendar.exe
