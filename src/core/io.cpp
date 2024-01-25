@@ -21,6 +21,6 @@ void saveDate(date::year_month_day date, const std::filesystem::path& path) {
     if (!file.is_open()) {
         throw std::runtime_error("Error: Unable to open file for writing.");
     }
-    file << date.year() << ' ' << static_cast<uint>(date.month()) << ' '
+    file << date.year() << ' ' << static_cast<unsigned int>(date.month()) << ' '
          << date.day();
 }
