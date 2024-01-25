@@ -4,6 +4,8 @@
 #include "date.h"
 #include "types.h"
 
+typedef unsigned int uint;
+
 namespace period_calendar {
 
 constexpr uint kDaysPerMonth = 6 * 7;
