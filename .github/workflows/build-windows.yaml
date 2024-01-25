@@ -17,9 +17,9 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Set up CMake
-      uses: Kitware/CMake-action@v1
-      with:
-        cmakeListsOrSettingsJson: '${{ workspace }}/CMakeLists.txt'  # Specify the path to your CMakeLists.txt file or CMake settings JSON file
+      run: |
+         choco install cmake -y
+         cmake --version
 
     - name: Install Qt5
       run: |
